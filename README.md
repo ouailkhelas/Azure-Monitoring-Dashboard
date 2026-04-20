@@ -2,10 +2,6 @@
 
 **Enterprise monitoring solution with role-based access control and automated alerting**
 
-![Azure](https://img.shields.io/badge/Azure-0078D4?logo=microsoft-azure&logoColor=white)
-![Terraform](https://img.shields.io/badge/Terraform-7B42BC?logo=terraform&logoColor=white)
-![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?logo=powershell&logoColor=white)
-
 ## Overview
 
 Complete monitoring infrastructure solution combining **Terraform infrastructure-as-code with Azure Portal configuration**. Deploys Azure Monitor workbooks, metric alerts, Log Analytics queries, and RBAC governance for enterprise Azure environments.
@@ -93,40 +89,6 @@ Connect-AzAccount
 
 # Deploy monitoring solution
 .\scripts\Deploy-MonitoringSolution.ps1 -SubscriptionId "your-sub-id" -ResourceGroupName "rg-monitoring"
-```
-
-## Project Structure
-
-```
-azure-monitoring-dashboard/
-├── README.md
-├── terraform/
-│   ├── main.tf                      # Main infrastructure
-│   ├── variables.tf                 # Input variables
-│   ├── outputs.tf                   # Output values
-│   ├── modules/
-│   │   ├── log-analytics/           # Log Analytics workspace
-│   │   ├── alerts/                  # Metric alert rules
-│   │   ├── workbooks/               # Azure Monitor workbooks
-│   │   └── rbac/                    # Role assignments
-│   └── examples/
-│       └── simple/                  # Basic deployment example
-├── scripts/
-│   ├── Deploy-MonitoringSolution.ps1
-│   ├── Set-MonitoringRBAC.ps1
-│   └── Export-LogAnalyticsQueries.ps1
-├── workbooks/
-│   ├── vm-performance.json          # VM monitoring workbook
-│   ├── network-overview.json        # Network health workbook
-│   └── cost-tracking.json           # Cost dashboard
-├── queries/
-│   ├── failed-logins.kql
-│   ├── backup-status.kql
-│   └── performance-issues.kql
-└── docs/
-    ├── RBAC_MATRIX.md               # Role permissions reference
-    ├── ALERT_RUNBOOK.md             # Incident response procedures
-    └── CUSTOMIZATION.md             # Customization guide
 ```
 
 ## Architecture
@@ -473,17 +435,7 @@ AzureNetworkAnalytics_CL
 - Use consistent time ranges across widgets
 - Add text tiles for context ("Production Environment Overview")
 - Create separate dashboards for different audiences
-
-## Real-World Implementation
-
-**Client: SaaS Platform (30+ Resources)**
-
-### Before Implementation
-- No centralized monitoring
-- 5-person DevOps team sharing Owner access
-- Manual backup verification (weekly)
-- Mean time to detection: 35 minutes
-- No audit trail for changes
+- 
 
 ### Implementation Method: Terraform + Portal Hybrid
 
@@ -541,13 +493,6 @@ Deployed via `terraform apply`:
 - Full audit trail for compliance
 - Zero manual monitoring tasks
 
-### Key Improvements
-- **60% faster incident detection** (35min → 12min)
-- **90% reduction in manual monitoring tasks**
-- **100% backup verification coverage**
-- **Zero security incidents** from over-privileged access
-- **15+ custom KQL queries** for troubleshooting
-
 ## Troubleshooting
 
 ### Alert Not Firing
@@ -574,31 +519,6 @@ Get-AzRoleAssignment -Scope "/subscriptions/sub-id" | Where-Object { $_.Principa
 Get-AzRoleDefinition -Name "Metric Alert Manager"
 ```
 
-## Contributing
-
-Contributions welcome! Areas for improvement:
-- Additional workbook templates
-- More KQL query examples
-- Integration with third-party tools (Grafana, Datadog)
-- Terraform modules for other Azure services
-
-## License
-
-MIT License - see [LICENSE](LICENSE) file
-
-## Support
-
-- **Issues**: [GitHub Issues](https://github.com/YOUR_USERNAME/azure-monitoring-dashboard/issues)
-- **Discussions**: Feature requests and Q&A
-- **Professional Support**: Available via Upwork
-
-## Certifications
-
-Built by an **AZ-104 certified Azure Administrator** with expertise in:
-- Azure Monitor and Log Analytics
-- RBAC and identity management
-- Infrastructure as Code (Terraform)
-- Enterprise monitoring strategies
 
 ---
 
