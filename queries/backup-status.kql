@@ -1,0 +1,41 @@
+// Azure Backup Status Verification Query
+// Purpose: Check backup job status for last 7 days and calculate success rate
+// Use Case: Weekly backup health reports, compliance verification
+
+AzureDiagnostics
+| where TimeGenerated > ago(7d)
+| where Category == "AzureBackupReport"
+| where OperationName == "Job"
+| where JobOperation_s == "Backup"
+| summarize 
+    TotalBackups = count(),
+    SuccessfulBackups = countif(JobStatus_s == "Completed"),
+    FailedBackups = countif(JobStatus_s == "Failed"),
+    CancelledBackups = countif(JobStatus_s == "Cancelled")
+    by Resource
+| extend SuccessRate = round((SuccessfulBackups * 100.0) / TotalBackups, 2)
+| extend HealthStatus = case(
+    SuccessRate >= 95, "Healthy",
+    SuccessRate >= 85, "Warning",
+    "Critical"
+  )
+| project 
+    Resource,
+    TotalBackups,
+    SuccessfulBackups,
+    FailedBackups,
+    SuccessRate,
+    HealthStatus
+| order by SuccessRate asc
+
+// Alert Criteria:
+// - Critical: Success rate < 85%
+// - Warning: Success rate between 85-95%
+// - Healthy: Success rate >= 95%
+
+// Recommended Actions:
+// If SuccessRate < 95%:
+// 1. Review JobFailureCode_s for root cause
+// 2. Check backup vault capacity
+// 3. Verify network connectivity to backup vault
+// 4. Review retention policy alignment with available storage
