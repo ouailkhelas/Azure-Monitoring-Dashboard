@@ -1,1 +1,154 @@
+# General Azure Monitoring KQL Queries
 
+Common Log Analytics queries usable across multiple Azure projects and environments.
+
+---
+
+# 🖥 VM CPU Utilization
+
+```kql
+Perf
+| where TimeGenerated > ago(1h)
+| where ObjectName == "Processor"
+| where CounterName == "% Processor Time"
+| summarize AvgCPU = avg(CounterValue) by Computer
+| order by AvgCPU desc
+```
+
+---
+
+# 🧠 Memory Usage Monitoring
+
+```kql
+Perf
+| where TimeGenerated > ago(1h)
+| where ObjectName == "Memory"
+| where CounterName == "Available MBytes"
+| summarize AvgMemoryMB = avg(CounterValue) by Computer
+| order by AvgMemoryMB asc
+```
+
+---
+
+# 💾 Disk Space Monitoring
+
+```kql
+Perf
+| where TimeGenerated > ago(1h)
+| where ObjectName == "LogicalDisk"
+| where CounterName == "% Free Space"
+| summarize AvgFreeSpace = avg(CounterValue) by Computer, InstanceName
+| order by AvgFreeSpace asc
+```
+
+---
+
+# 🌐 Network Traffic Analysis
+
+```kql
+Perf
+| where TimeGenerated > ago(1h)
+| where ObjectName == "Network Interface"
+| summarize AvgTraffic = avg(CounterValue) by Computer
+| order by AvgTraffic desc
+```
+
+---
+
+# 🚨 Failed Login Attempts
+
+```kql
+SecurityEvent
+| where TimeGenerated > ago(24h)
+| where EventID == 4625
+| summarize FailedAttempts = count() by Account, Computer
+| order by FailedAttempts desc
+```
+
+---
+
+# 🔔 Critical Azure Activity Events
+
+```kql
+AzureActivity
+| where TimeGenerated > ago(24h)
+| where ActivityStatusValue == "Failure"
+| project TimeGenerated, OperationNameValue, ResourceGroup, Caller
+```
+
+---
+
+# 📦 Resource Health Monitoring
+
+```kql
+AzureActivity
+| where TimeGenerated > ago(24h)
+| where OperationNameValue contains "restart"
+   or OperationNameValue contains "delete"
+```
+
+---
+
+# 💰 Cost Monitoring
+
+```kql
+AzureActivity
+| summarize TotalOperations = count() by ResourceGroup
+| order by TotalOperations desc
+```
+
+---
+
+# 🔐 RBAC Changes Audit
+
+```kql
+AzureActivity
+| where OperationNameValue contains "roleAssignments"
+| project TimeGenerated, Caller, OperationNameValue
+```
+
+---
+
+# 🛡 NSG Blocked Traffic
+
+```kql
+AzureNetworkAnalytics_CL
+| where FlowStatus_s == "Deny"
+| summarize DeniedFlows = count() by SrcIP_s, DestIP_s
+| order by DeniedFlows desc
+```
+
+---
+
+# 📊 VM Availability Monitoring
+
+```kql
+Heartbeat
+| summarize LastHeartbeat=max(TimeGenerated) by Computer
+| extend Status = iff(LastHeartbeat < ago(5m), "Offline", "Online")
+```
+
+---
+
+# 🔄 Backup Status Monitoring
+
+```kql
+AzureDiagnostics
+| where Category == "AzureBackupReport"
+| summarize Successful=countif(JobStatus_s=="Completed"),
+            Failed=countif(JobStatus_s=="Failed")
+            by Resource
+```
+
+---
+
+# 🎯 Common Use Cases
+
+- VM monitoring
+- Security monitoring
+- Cost tracking
+- Backup verification
+- Network troubleshooting
+- Resource auditing
+- Performance analysis
+- Incident investigation
