@@ -1,6 +1,3 @@
-# Azure Monitoring Dashboard - Main Terraform Configuration
-# Deploys Log Analytics, Alerts, Workbooks, and RBAC
-
 terraform {
   required_version = ">= 1.0"
   
@@ -17,7 +14,6 @@ provider "azurerm" {
   subscription_id = var.subscription_id
 }
 
-# Resource Group
 resource "azurerm_resource_group" "monitoring" {
   name     = var.resource_group_name
   location = var.location
@@ -29,7 +25,6 @@ resource "azurerm_resource_group" "monitoring" {
   }
 }
 
-# Log Analytics Workspace
 resource "azurerm_log_analytics_workspace" "main" {
   name                = "law-${var.environment}-${var.location}"
   location            = azurerm_resource_group.monitoring.location
@@ -40,7 +35,6 @@ resource "azurerm_log_analytics_workspace" "main" {
   tags = azurerm_resource_group.monitoring.tags
 }
 
-# Action Group for DevOps Team
 resource "azurerm_monitor_action_group" "devops" {
   name                = "ag-devops-team"
   resource_group_name = azurerm_resource_group.monitoring.name
@@ -54,7 +48,6 @@ resource "azurerm_monitor_action_group" "devops" {
   tags = azurerm_resource_group.monitoring.tags
 }
 
-# Action Group for Management
 resource "azurerm_monitor_action_group" "management" {
   name                = "ag-management"
   resource_group_name = azurerm_resource_group.monitoring.name
@@ -68,7 +61,6 @@ resource "azurerm_monitor_action_group" "management" {
   tags = azurerm_resource_group.monitoring.tags
 }
 
-# VM CPU Alert
 resource "azurerm_monitor_metric_alert" "vm_cpu_high" {
   name                = "alert-vm-cpu-high"
   resource_group_name = azurerm_resource_group.monitoring.name
@@ -93,7 +85,6 @@ resource "azurerm_monitor_metric_alert" "vm_cpu_high" {
   tags = azurerm_resource_group.monitoring.tags
 }
 
-# VM Memory Alert
 resource "azurerm_monitor_metric_alert" "vm_memory_high" {
   name                = "alert-vm-memory-high"
   resource_group_name = azurerm_resource_group.monitoring.name
@@ -118,7 +109,6 @@ resource "azurerm_monitor_metric_alert" "vm_memory_high" {
   tags = azurerm_resource_group.monitoring.tags
 }
 
-# Budget Alert
 resource "azurerm_consumption_budget_subscription" "monthly" {
   name            = "budget-monthly-threshold"
   subscription_id = var.subscription_id
@@ -152,7 +142,6 @@ resource "azurerm_consumption_budget_subscription" "monthly" {
   }
 }
 
-# RBAC: Monitoring Contributor for DevOps Group
 resource "azurerm_role_assignment" "devops_monitoring_contributor" {
   scope                = azurerm_resource_group.monitoring.id
   role_definition_name = "Monitoring Contributor"
@@ -166,7 +155,6 @@ resource "azurerm_role_assignment" "dev_monitoring_reader" {
   principal_id         = var.dev_group_id
 }
 
-# Custom Role Definition: Metric Alert Manager
 resource "azurerm_role_definition" "metric_alert_manager" {
   name        = "Metric Alert Manager"
   scope       = "/subscriptions/${var.subscription_id}"
@@ -191,7 +179,6 @@ resource "azurerm_role_definition" "metric_alert_manager" {
   ]
 }
 
-# Log Analytics Saved Queries
 resource "azurerm_log_analytics_saved_search" "failed_backups" {
   name                       = "Failed Backups"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
