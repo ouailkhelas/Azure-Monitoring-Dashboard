@@ -1,11 +1,7 @@
-# General Azure Monitoring KQL Queries
-
 Common Log Analytics queries usable across multiple Azure projects and environments.
-
 ---
 
-# 🖥 VM CPU Utilization
-
+# VM CPU Utilization
 ```kql
 Perf
 | where TimeGenerated > ago(1h)
@@ -14,10 +10,8 @@ Perf
 | summarize AvgCPU = avg(CounterValue) by Computer
 | order by AvgCPU desc
 ```
-
 ---
-
-# 🧠 Memory Usage Monitoring
+# Memory Usage Monitoring
 
 ```kql
 Perf
@@ -27,10 +21,9 @@ Perf
 | summarize AvgMemoryMB = avg(CounterValue) by Computer
 | order by AvgMemoryMB asc
 ```
-
 ---
 
-# 💾 Disk Space Monitoring
+# Disk Space Monitoring
 
 ```kql
 Perf
@@ -40,10 +33,8 @@ Perf
 | summarize AvgFreeSpace = avg(CounterValue) by Computer, InstanceName
 | order by AvgFreeSpace asc
 ```
-
 ---
-
-# 🌐 Network Traffic Analysis
+# Network Traffic Analysis
 
 ```kql
 Perf
@@ -52,10 +43,8 @@ Perf
 | summarize AvgTraffic = avg(CounterValue) by Computer
 | order by AvgTraffic desc
 ```
-
 ---
-
-# 🚨 Failed Login Attempts
+# Failed Login Attempts
 
 ```kql
 SecurityEvent
@@ -66,8 +55,7 @@ SecurityEvent
 ```
 
 ---
-
-# 🔔 Critical Azure Activity Events
+# Critical Azure Activity Events
 
 ```kql
 AzureActivity
@@ -75,10 +63,9 @@ AzureActivity
 | where ActivityStatusValue == "Failure"
 | project TimeGenerated, OperationNameValue, ResourceGroup, Caller
 ```
-
 ---
 
-# 📦 Resource Health Monitoring
+#  Resource Health Monitoring
 
 ```kql
 AzureActivity
@@ -86,10 +73,9 @@ AzureActivity
 | where OperationNameValue contains "restart"
    or OperationNameValue contains "delete"
 ```
-
 ---
 
-# 💰 Cost Monitoring
+# Cost Monitoring
 
 ```kql
 AzureActivity
@@ -99,7 +85,7 @@ AzureActivity
 
 ---
 
-# 🔐 RBAC Changes Audit
+# RBAC Changes Audit
 
 ```kql
 AzureActivity
@@ -109,7 +95,7 @@ AzureActivity
 
 ---
 
-# 🛡 NSG Blocked Traffic
+# NSG Blocked Traffic
 
 ```kql
 AzureNetworkAnalytics_CL
@@ -120,7 +106,7 @@ AzureNetworkAnalytics_CL
 
 ---
 
-# 📊 VM Availability Monitoring
+# VM Availability Monitoring
 
 ```kql
 Heartbeat
@@ -130,7 +116,7 @@ Heartbeat
 
 ---
 
-# 🔄 Backup Status Monitoring
+# Backup Status Monitoring
 
 ```kql
 AzureDiagnostics
@@ -139,16 +125,3 @@ AzureDiagnostics
             Failed=countif(JobStatus_s=="Failed")
             by Resource
 ```
-
----
-
-# 🎯 Common Use Cases
-
-- VM monitoring
-- Security monitoring
-- Cost tracking
-- Backup verification
-- Network troubleshooting
-- Resource auditing
-- Performance analysis
-- Incident investigation
