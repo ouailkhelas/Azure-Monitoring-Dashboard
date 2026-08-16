@@ -1,10 +1,9 @@
 # Azure Portal Monitoring Operations Guide
 
 Practical Azure Portal operations for monitoring, alerting, dashboards, and governance.
-
 ---
 
-# 🚀 Monitoring Workflow
+#  Monitoring Workflow
 
 ## Azure Monitor Workbooks
 - Create monitoring dashboards
@@ -33,7 +32,7 @@ Perf
 
 ---
 
-# 🔔 Alert Management
+#  Alert Management
 
 ## Metric Alerts
 - CPU utilization alerts
@@ -60,7 +59,7 @@ Perf
 
 ---
 
-# 📊 Dashboard Operations
+#  Dashboard Operations
 
 ## Shared Dashboards
 - Create operational dashboards
@@ -72,7 +71,7 @@ Perf
 
 ---
 
-# 🔐 Azure RBAC Operations
+#  Azure RBAC Operations
 
 ## IAM Management
 - Assign Monitoring Contributor roles
@@ -83,7 +82,7 @@ Perf
 
 ---
 
-# 📈 Monitoring Features
+#  Monitoring Features
 
 - VM health monitoring
 - Network monitoring
@@ -95,7 +94,7 @@ Perf
 
 ---
 
-# ⚙️ Azure Portal Tasks
+#  Azure Portal Tasks
 
 ## Azure Monitor
 - Configure alerts
@@ -120,29 +119,3 @@ Perf
 - Add monitoring tiles
 - Add cost widgets
 - Organize monitoring views
-
----
-
-# 🛠 Technologies
-
-- Azure Portal
-- Azure Monitor
-- Log Analytics
-- KQL
-- Azure RBAC
-- Azure Dashboards
-- Azure Cost Management
-- Azure Activity Logs
-
----
-
-# 🎯 Best Practices
-
-- Test alerts in dev first
-- Use naming conventions
-- Review alert noise regularly
-- Apply resource tagging
-- Use group-based RBAC
-- Share dashboards with teams
-- Review monitoring costs
-- Document KQL queries
