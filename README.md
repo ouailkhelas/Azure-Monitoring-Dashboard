@@ -1,4 +1,4 @@
-# Azure Monitoring Dashboard with RBAC
+# Azure Monitoring Dashboard
 
 Enterprise monitoring solution using Terraform, Azure Monitor, Log Analytics, and Azure RBAC.
 
@@ -14,8 +14,6 @@ Hybrid monitoring approach combining:
 - RBAC governance
 - Automated alerting
 
-Focus on enterprise monitoring, troubleshooting, and operational visibility.
-
 ---
 
 # ⚙️ Features
@@ -24,7 +22,6 @@ Focus on enterprise monitoring, troubleshooting, and operational visibility.
 - VM performance dashboards
 - Network monitoring views
 - Cost tracking dashboards
-- Real-time resource monitoring
 
 ---
 
@@ -32,9 +29,7 @@ Focus on enterprise monitoring, troubleshooting, and operational visibility.
 - CPU usage alerts
 - Memory pressure alerts
 - Disk space monitoring
-- Backup failure detection
 - Budget threshold alerts
-- Application Gateway health alerts
 
 ---
 
@@ -98,15 +93,3 @@ Focus on enterprise monitoring, troubleshooting, and operational visibility.
 - KQL
 - PowerShell
 - Azure Cost Management
-
----
-
-# ▶️ Quick Start
-
-```bash
-az login
-
-terraform init
-terraform plan
-terraform apply
-```
