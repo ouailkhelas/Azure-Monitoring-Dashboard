@@ -1,6 +1,6 @@
 # Azure Monitoring Dashboard
 
-Enterprise monitoring solution using Terraform, Azure Monitor, Log Analytics, and Azure RBAC.cloud solutions jaiiqj
+Enterprise monitoring solution using Terraform, Azure Monitor, Log Analytics, and Azure RBAC.
 
 ---
 
